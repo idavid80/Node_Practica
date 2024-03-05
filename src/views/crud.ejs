@@ -28,8 +28,11 @@
                     <td><input type="password" class="form-control" value="<%= user.password %>" id="password_<%= user.id %>"></td>
                     <td> 
                         <button class="btn btn-primary update-btn" data-user-id="<%= user.id %>">Update</button>
+   
+          
+                    </td>
+                    <td>
                         <button class="btn btn-danger delete-btn" data-user-id="<%= user.id %>">Delete</button>
-                        </form>
                     </td>
                 </tr>
             <% }); %>
