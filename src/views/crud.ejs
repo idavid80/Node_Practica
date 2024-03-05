@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%- include('partials/head') %>
+    <title><%= title %></title>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Username</th>
+                <th scope="col">Password</th>
+                <th scope="col">Update User</th>
+                <th scope="col">Delete User</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% users.forEach(user => { %>
+                <tr>
+                    <th scope="row"><%= user.id %></th>
+                    <td><input type="text" class="form-control" value="<%= user.nameuser %>" id="username_<%= user.id %>"></td>
+                    <td><input type="password" class="form-control" value="<%= user.password %>" id="password_<%= user.id %>"></td>
+                    <td> 
+                        <button class="btn btn-primary update-btn" data-user-id="<%= user.id %>">Update</button>
+                        <button class="btn btn-danger delete-btn" data-user-id="<%= user.id %>">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const deleteButtons = document.querySelectorAll('.delete-btn');
+    const updateButtons = document.querySelectorAll('.update-btn');
+
+    updateButtons.forEach(button => {
+            button.addEventListener('click', async function() {
+                const userId = button.dataset.userId;
+                const username = document.getElementById(`username_${userId}`).value;
+                const password = document.getElementById(`password_${userId}`).value;
+
+                const confirmation = confirm('Estas seguro que quieres actualizar estos datos?');
+
+                if (confirmation) {
+                    const requestOptions = {
+                      method: 'Put',
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                        id: userId,
+                        nameuser: username,
+                        password: password
+                        })}
+                    try {
+                        const response = await fetch(`/updatetUser`, requestOptions);
+                        if (response.ok) {
+                            // Recargar la página o actualizar la tabla de usuarios
+                            location.reload();
+                        } else {
+                            console.error('Error updating user:', response.statusText);
+                            alert('Error updating user');
+                        }
+                    } catch (error) {
+                        console.error('Error updating user:', error.message);
+                        alert('Error updating user');
+                    }
+                }
+            });
+        });
+    
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', async function() {
+            const userId = button.dataset.userId;
+            console.log(userId)
+            const confirmation = confirm('Estas seguro que quieres eliminiar?');
+
+            if (confirmation) {
+                const requestOptions = {
+                      method: 'DELETE',
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                        userId: userId
+                        })}
+                try {
+                    const response = await fetch(`/eliminar/`, requestOptions);
+
+                    if (response.ok) {
+                        // Recargar la página o actualizar la tabla de usuarios
+                        location.reload();
+                    } else {
+                        console.error('Error deleting user:', response.statusText);
+                        alert('Error deleting user');
+                    }
+                } catch (error) {
+                    console.error('Error deleting user:', error.message);
+                    alert('Error deleting user');
+                }
+            }
+        });
+    });
+});
+</script>
+    <%- include('partials/footer') %>
+    <%- include('partials/scripts') %>
+</body>
+</html>

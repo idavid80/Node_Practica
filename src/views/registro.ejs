@@ -9,7 +9,7 @@
 <body>
     <%- include('partials/navbar') %>
     <div class="container registro pt-5">
-    <form method="Post" action="http://localhost:3000/insertUsers" class="row g-3 needs-validation" novalidate>
+    <form method="Post" action="/insertUsers" class="row g-3 needs-validation" novalidate>
         <div class="col-md-4">
           <label for="validationCustom01" class="form-label">First name</label>
           <input type="text" class="form-control" id="validationCustom01" value="Mark" required>
@@ -28,10 +28,17 @@
           <label for="validationCustomUsername" class="form-label">Username</label>
           <div class="input-group has-validation">
             <span class="input-group-text" id="inputGroupPrepend">@</span>
-            <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
+            <input type="text" class="form-control" name="nameuser" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
             <div class="invalid-feedback">
               Please choose a username.
             </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label for="validationCustom01" class="form-label">Contraseña name</label>
+          <input type="password" name="password" class="form-control" id="validationCustom01" required>
+          <div class="valid-feedback">
+            Looks good!
           </div>
         </div>
         <div class="col-md-6">

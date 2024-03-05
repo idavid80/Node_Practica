@@ -1,6 +1,7 @@
 import  express from 'express';
 // import ejs from 'ejs';
 
+
 //rutas dinamicas
 import {dirname, join} from 'path';
 import {fileURLToPath} from 'url';
@@ -15,18 +16,18 @@ const app = express();
 
 // Utilizar express.json para recibir peticiones json (bodyparse)
 app.use(express.json());
-
+app.use(express.urlencoded({extended: true}));
 //Configuracion motor de plantilla ejs
 app.set('view engine',  'ejs');
 
 // busca un archivo y lo convierte en  una ruta relativa a donde se encuentra este script (archivo)
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-console.log(__dirname);
+//console.log(__dirname);
 
 // join concatena / o \ en funcion del sistema operativo
 app.set('views' , join(__dirname, 'views'));
-console.log(join(__dirname, 'views'));
+//console.log(join(__dirname, 'views'));
 
 // Generar ruta y pasarlas a router/index.js e inicializarlo la variable en la que se importa
 app.use(indexRoutes);
